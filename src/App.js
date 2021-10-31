@@ -20,8 +20,54 @@ export default class App extends React.Component {
     };
   }
 
+  showAlert = (classList = "", message = "") => {
+    this.setState({ alert: { classList, message } }, () => {
+      setTimeout(() => {
+        this.setState({ alert: { classList: "", message: "" } });
+      }, 3000);
+    });
+  };
+
   submitHandler = (e) => {
     e.preventDefault();
+
+    // Empty input
+    if (this.state.inputValue === "") {
+      this.showAlert("error", "Please enter value");
+      // this.setState(
+      //   { alert: { classList: "error", message: "Please enter value" } },
+      //   () => {
+      //     setTimeout(() => {
+      //       this.setState({ alert: { classList: "", message: "" } });
+      //     }, 3000);
+      //   }
+      // );
+      return;
+    }
+
+    // Adding item to the list
+    const item = this.state.inputValue;
+
+    this.showAlert("success", "Item added to the list");
+    this.setState({
+      groceryList: [...this.state.groceryList, item],
+      inputValue: "",
+    });
+    // this.setState(
+    //   {
+    //     groceryList: [...this.state.groceryList, item],
+    //     inputValue: "",
+    //     alert: {
+    //       classList: "success",
+    //       message: "Item added to the list",
+    //     },
+    //   },
+    //   () => {
+    //     setTimeout(() => {
+    //       this.setState({ alert: { classList: "", message: "" } });
+    //     }, 3000);
+    //   }
+    // );
   };
 
   changeHandler = (e) => {
