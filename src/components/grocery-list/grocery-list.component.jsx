@@ -5,7 +5,12 @@ import { FaTrash } from "react-icons/fa";
 
 import "./grocery-list.styles.css";
 
-const GroceryList = ({ groceryList, editHandler, trashHandler }) => {
+const GroceryList = ({
+  groceryList,
+  editHandler,
+  removeHandler,
+  clearList,
+}) => {
   return (
     <div className="content">
       <ul className="list">
@@ -16,14 +21,17 @@ const GroceryList = ({ groceryList, editHandler, trashHandler }) => {
               <button className="icon-btn" onClick={() => editHandler(index)}>
                 <FaEdit className="icon-edit" />
               </button>
-              <button className="icon-btn">
+              <button className="icon-btn" onClick={() => removeHandler(index)}>
                 <FaTrash className="icon-trash" />
               </button>
             </div>
           </li>
         ))}
       </ul>
-      <button className={`${groceryList.length === 0 && "hidden"} btn-text`}>
+      <button
+        className={`${groceryList.length === 0 && "hidden"} btn-text`}
+        onClick={clearList}
+      >
         Clear items
       </button>
     </div>

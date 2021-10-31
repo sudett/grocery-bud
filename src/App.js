@@ -79,6 +79,19 @@ export default class App extends React.Component {
     this.setState({ inputValue: itemText, btnText: "edit", editIndex: index });
   };
 
+  removeHandler = (index) => {
+    const newGroceryList = this.state.groceryList.filter(
+      (item, i) => i !== index
+    );
+    this.setState({ groceryList: newGroceryList });
+    this.showAlert("error", "Item removed");
+  };
+
+  clearList = () => {
+    this.setState({ groceryList: [] });
+    this.showAlert("error", "Empty List");
+  };
+
   render() {
     return (
       <div className="app">
@@ -93,6 +106,8 @@ export default class App extends React.Component {
         <GroceryList
           groceryList={this.state.groceryList}
           editHandler={this.editHandler}
+          removeHandler={this.removeHandler}
+          clearList={this.clearList}
         />
       </div>
     );
