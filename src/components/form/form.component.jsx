@@ -2,7 +2,7 @@ import React from "react";
 
 import "./form.styles.css";
 
-const Form = ({ inputValue, changeHandler, submitHandler }) => (
+const Form = ({ inputValue, btnText, changeHandler, submitHandler }) => (
   <form className="form" onSubmit={submitHandler}>
     <input
       className="form-input"
@@ -12,7 +12,7 @@ const Form = ({ inputValue, changeHandler, submitHandler }) => (
       onChange={changeHandler}
     />
     <button className="btn-blue" type="submit">
-      Submit
+      {btnText}
     </button>
   </form>
 );

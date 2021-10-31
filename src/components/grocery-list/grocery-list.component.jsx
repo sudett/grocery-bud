@@ -13,7 +13,7 @@ const GroceryList = ({ groceryList, editHandler, trashHandler }) => {
           <li className="list-item" key={index}>
             <span>{item}</span>
             <div className="icons">
-              <button className="icon-btn">
+              <button className="icon-btn" onClick={() => editHandler(index)}>
                 <FaEdit className="icon-edit" />
               </button>
               <button className="icon-btn">

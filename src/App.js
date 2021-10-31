@@ -17,61 +17,66 @@ export default class App extends React.Component {
         classList: "",
         message: "",
       },
+      btnText: "submit",
+      editIndex: null,
     };
   }
 
+  setTimer = () => {
+    const timer = setTimeout(() => {
+      this.setState({ alert: { classList: "", message: "" } });
+    }, 3000);
+    return () => clearTimeout(timer);
+  };
+
   showAlert = (classList = "", message = "") => {
-    this.setState({ alert: { classList, message } }, () => {
-      setTimeout(() => {
-        this.setState({ alert: { classList: "", message: "" } });
-      }, 3000);
-    });
+    this.setState({ alert: { classList, message } }, () => this.setTimer());
   };
 
   submitHandler = (e) => {
     e.preventDefault();
 
+    const { inputValue, btnText, groceryList, editIndex } = this.state;
     // Empty input
-    if (this.state.inputValue === "") {
+    if (inputValue === "") {
       this.showAlert("error", "Please enter value");
-      // this.setState(
-      //   { alert: { classList: "error", message: "Please enter value" } },
-      //   () => {
-      //     setTimeout(() => {
-      //       this.setState({ alert: { classList: "", message: "" } });
-      //     }, 3000);
-      //   }
-      // );
       return;
     }
 
     // Adding item to the list
-    const item = this.state.inputValue;
+    if (btnText === "submit") {
+      const item = inputValue;
+      this.setState({
+        groceryList: [...groceryList, item],
+        inputValue: "",
+      });
+      this.showAlert("success", "Item added to the list");
+    }
 
-    this.showAlert("success", "Item added to the list");
-    this.setState({
-      groceryList: [...this.state.groceryList, item],
-      inputValue: "",
-    });
-    // this.setState(
-    //   {
-    //     groceryList: [...this.state.groceryList, item],
-    //     inputValue: "",
-    //     alert: {
-    //       classList: "success",
-    //       message: "Item added to the list",
-    //     },
-    //   },
-    //   () => {
-    //     setTimeout(() => {
-    //       this.setState({ alert: { classList: "", message: "" } });
-    //     }, 3000);
-    //   }
-    // );
+    // Edit item
+    if (btnText === "edit") {
+      const newGroceryList = groceryList.map((item, index) => {
+        if (index === editIndex) return inputValue;
+        else return item;
+      });
+      this.setState({
+        groceryList: newGroceryList,
+        btnText: "submit",
+        inputValue: "",
+      });
+
+      this.showAlert("success", "Value changed");
+    }
   };
 
   changeHandler = (e) => {
     this.setState({ inputValue: e.target.value });
+  };
+
+  editHandler = (index) => {
+    const itemText = this.state.groceryList.find((_, i) => i === index);
+    console.log(itemText);
+    this.setState({ inputValue: itemText, btnText: "edit", editIndex: index });
   };
 
   render() {
@@ -83,8 +88,12 @@ export default class App extends React.Component {
           submitHandler={this.submitHandler}
           changeHandler={this.changeHandler}
           inputValue={this.state.inputValue}
+          btnText={this.state.btnText}
         />
-        <GroceryList groceryList={this.state.groceryList} />
+        <GroceryList
+          groceryList={this.state.groceryList}
+          editHandler={this.editHandler}
+        />
       </div>
     );
   }
