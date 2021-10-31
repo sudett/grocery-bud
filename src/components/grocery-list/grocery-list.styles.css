@@ -1,0 +1,78 @@
+.content {
+  align-self: stretch;
+}
+
+.list {
+  margin: 3rem 0;
+}
+
+.list-item {
+  display: flex;
+  text-transform: capitalize;
+  transition: all 0.4s ease;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.list-item:hover {
+  background-color: var(--clr-primary-10);
+  color: var(--clr-grey-5);
+}
+
+.icons {
+  margin-left: auto;
+}
+
+.icon-btn {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.icon-edit,
+.icon-trash {
+  width: 1.35rem;
+  height: 1.35rem;
+  transition: all 0.4s ease;
+}
+
+.icon-edit {
+  fill: var(--clr-green-light);
+  margin-right: 1rem;
+}
+
+.icon-trash {
+  fill: var(--clr-red-light);
+}
+
+.icon-edit:hover {
+  fill: var(--clr-green-dark);
+}
+
+.icon-trash:hover {
+  fill: var(--clr-red-dark);
+}
+
+.btn-text {
+  display: block;
+  border: none;
+  outline: none;
+  margin: 0 auto;
+  color: var(--clr-red-light);
+  background-color: transparent;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  font-size: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-text:hover {
+  color: var(--clr-red-dark);
+}
+
+.hidden {
+  display: none;
+}
