@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Message from "./components/message/message.component";
 import Form from "./components/form/form.component";
@@ -6,51 +6,36 @@ import GroceryList from "./components/grocery-list/grocery-list.component";
 
 import "./App.css";
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+const App = () => {
+  const [inputValue, setInputValue] = useState("");
+  const [groceryList, setGroceryList] = useState([]);
+  const [alert, setAlert] = useState({ classList: "", message: "" });
+  const [btnText, setBtnText] = useState("submit");
+  const [editIndex, setEditIndex] = useState(null);
 
-    this.state = {
-      inputValue: "",
-      groceryList: [],
-      alert: {
-        classList: "",
-        message: "",
-      },
-      btnText: "submit",
-      editIndex: null,
-    };
-  }
-
-  setTimer = () => {
-    const timer = setTimeout(() => {
-      this.setState({ alert: { classList: "", message: "" } });
-    }, 3000);
+  useEffect(() => {
+    const timer = setTimeout(() => showAlert(), 3000);
     return () => clearTimeout(timer);
+  }, [alert]);
+
+  const showAlert = (classList = "", message = "") => {
+    setAlert({ classList, message });
   };
 
-  showAlert = (classList = "", message = "") => {
-    this.setState({ alert: { classList, message } }, () => this.setTimer());
-  };
-
-  submitHandler = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
-    const { inputValue, btnText, groceryList, editIndex } = this.state;
     // Empty input
     if (inputValue === "") {
-      this.showAlert("error", "Please enter value");
+      showAlert("error", "Please enter value");
       return;
     }
 
     // Adding item to the list
     if (btnText === "submit") {
-      const item = inputValue;
-      this.setState({
-        groceryList: [...groceryList, item],
-        inputValue: "",
-      });
-      this.showAlert("success", "Item added to the list");
+      setGroceryList([...groceryList, inputValue]);
+      setInputValue("");
+      showAlert("success", "Item added to the list");
     }
 
     // Edit item
@@ -59,57 +44,55 @@ export default class App extends React.Component {
         if (index === editIndex) return inputValue;
         else return item;
       });
-      this.setState({
-        groceryList: newGroceryList,
-        btnText: "submit",
-        inputValue: "",
-      });
 
-      this.showAlert("success", "Value changed");
+      setGroceryList(newGroceryList);
+      setBtnText("submit");
+      setInputValue("");
+
+      showAlert("success", "Value changed");
     }
   };
 
-  changeHandler = (e) => {
-    this.setState({ inputValue: e.target.value });
+  const changeHandler = (e) => {
+    setInputValue(e.target.value);
   };
 
-  editHandler = (index) => {
-    const itemText = this.state.groceryList.find((_, i) => i === index);
-    console.log(itemText);
-    this.setState({ inputValue: itemText, btnText: "edit", editIndex: index });
+  const editHandler = (index) => {
+    const itemText = groceryList.find((_, i) => i === index);
+    setInputValue(itemText);
+    setBtnText("edit");
+    setEditIndex(index);
   };
 
-  removeHandler = (index) => {
-    const newGroceryList = this.state.groceryList.filter(
-      (item, i) => i !== index
-    );
-    this.setState({ groceryList: newGroceryList });
-    this.showAlert("error", "Item removed");
+  const removeHandler = (index) => {
+    const newGroceryList = groceryList.filter((item, i) => i !== index);
+    setGroceryList(newGroceryList);
+    showAlert("error", "Item removed");
   };
 
-  clearList = () => {
-    this.setState({ groceryList: [] });
-    this.showAlert("error", "Empty List");
+  const clearList = () => {
+    setGroceryList([]);
+    showAlert("error", "Empty List");
   };
 
-  render() {
-    return (
-      <div className="app">
-        <Message alert={this.state.alert} />
-        <h1 className="heading">Grocery bud</h1>
-        <Form
-          submitHandler={this.submitHandler}
-          changeHandler={this.changeHandler}
-          inputValue={this.state.inputValue}
-          btnText={this.state.btnText}
-        />
-        <GroceryList
-          groceryList={this.state.groceryList}
-          editHandler={this.editHandler}
-          removeHandler={this.removeHandler}
-          clearList={this.clearList}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="app">
+      <Message alert={alert} />
+      <h1 className="heading">Grocery bud</h1>
+      <Form
+        submitHandler={submitHandler}
+        changeHandler={changeHandler}
+        inputValue={inputValue}
+        btnText={btnText}
+      />
+      <GroceryList
+        groceryList={groceryList}
+        editHandler={editHandler}
+        removeHandler={removeHandler}
+        clearList={clearList}
+      />
+    </div>
+  );
+};
+
+export default App;

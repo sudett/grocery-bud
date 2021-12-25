@@ -1,9 +1,10 @@
 import React from "react";
 
-import "./message.styles.css";
+// import "./message.styles.css";
+import { MessageContainer } from "./message.styles";
 
 const Message = ({ alert: { classList, message } }) => (
-  <p className={`${classList} message`}>{message}</p>
+  <MessageContainer classList={classList}>{message}</MessageContainer>
 );
 
 export default Message;

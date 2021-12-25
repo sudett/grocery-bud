@@ -1,19 +1,17 @@
 import React from "react";
 
-import "./form.styles.css";
+// import "./form.styles.css";
+import { FormContainer, FormInput, ButtonBlue } from "./form.styles";
 
 const Form = ({ inputValue, btnText, changeHandler, submitHandler }) => (
-  <form className="form" onSubmit={submitHandler}>
-    <input
-      className="form-input"
+  <FormContainer onSubmit={submitHandler}>
+    <FormInput
       type="text"
       placeholder="e.g. eggs"
       value={inputValue}
       onChange={changeHandler}
     />
-    <button className="btn-blue" type="submit">
-      {btnText}
-    </button>
-  </form>
+    <ButtonBlue type="submit">{btnText}</ButtonBlue>
+  </FormContainer>
 );
 export default Form;

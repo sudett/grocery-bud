@@ -1,9 +1,15 @@
 import React from "react";
 
-import { FaEdit } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
-
-import "./grocery-list.styles.css";
+import {
+  Content,
+  GroceryListContainer,
+  GroceryListItem,
+  Icons,
+  IconButton,
+  EditIcon,
+  TrashIcon,
+  ButtonText,
+} from "./grocery-list.styles";
 
 const GroceryList = ({
   groceryList,
@@ -12,29 +18,26 @@ const GroceryList = ({
   clearList,
 }) => {
   return (
-    <div className="content">
-      <ul className="list">
+    <Content>
+      <GroceryListContainer>
         {groceryList.map((item, index) => (
-          <li className="list-item" key={index}>
+          <GroceryListItem key={index}>
             <span>{item}</span>
-            <div className="icons">
-              <button className="icon-btn" onClick={() => editHandler(index)}>
-                <FaEdit className="icon-edit" />
-              </button>
-              <button className="icon-btn" onClick={() => removeHandler(index)}>
-                <FaTrash className="icon-trash" />
-              </button>
-            </div>
-          </li>
+            <Icons>
+              <IconButton onClick={() => editHandler(index)}>
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => removeHandler(index)}>
+                <TrashIcon />
+              </IconButton>
+            </Icons>
+          </GroceryListItem>
         ))}
-      </ul>
-      <button
-        className={`${groceryList.length === 0 && "hidden"} btn-text`}
-        onClick={clearList}
-      >
+      </GroceryListContainer>
+      <ButtonText groceryList={groceryList} onClick={clearList}>
         Clear items
-      </button>
-    </div>
+      </ButtonText>
+    </Content>
   );
 };
 

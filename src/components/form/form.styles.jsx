@@ -1,9 +1,6 @@
-.form {
-  align-self: stretch;
-  display: flex;
-}
+import styled, { css } from "styled-components";
 
-.form-input {
+const inputStyles = css`
   flex: 1;
   border: none;
   outline: none;
@@ -13,13 +10,9 @@
   font-size: inherit;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
-}
+`;
 
-.form-input::placeholder {
-  color: var(--clr-grey-5);
-}
-
-.btn-blue {
+const btnStyles = css`
   border: none;
   outline: none;
   width: 8rem;
@@ -32,9 +25,22 @@
   border-bottom-right-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.5s ease;
-}
+`;
 
-.btn-blue:hover {
-  color: #fff;
-  background-color: var(--clr-primary-5);
-}
+export const FormContainer = styled.form`
+  align-self: stretch;
+  display: flex;
+`;
+
+export const FormInput = styled.input`
+  ${inputStyles}::placeholder {
+    color: var(--clr-grey-5);
+  }
+`;
+
+export const ButtonBlue = styled.button`
+  ${btnStyles}:hover {
+    color: #fff;
+    background-color: var(--clr-primary-5);
+  }
+`;
