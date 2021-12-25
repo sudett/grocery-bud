@@ -8,7 +8,9 @@ import "./App.css";
 
 const App = () => {
   const [inputValue, setInputValue] = useState("");
-  const [groceryList, setGroceryList] = useState([]);
+  const [groceryList, setGroceryList] = useState(
+    JSON.parse(localStorage.getItem("list")) || []
+  );
   const [alert, setAlert] = useState({ classList: "", message: "" });
   const [btnText, setBtnText] = useState("submit");
   const [editIndex, setEditIndex] = useState(null);
@@ -18,10 +20,15 @@ const App = () => {
     return () => clearTimeout(timer);
   }, [alert]);
 
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(groceryList));
+  }, [groceryList]);
+
   const showAlert = (classList = "", message = "") => {
     setAlert({ classList, message });
   };
 
+  // Submit handler
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -53,10 +60,12 @@ const App = () => {
     }
   };
 
+  // Input change handler
   const changeHandler = (e) => {
     setInputValue(e.target.value);
   };
 
+  // Edit item
   const editHandler = (index) => {
     const itemText = groceryList.find((_, i) => i === index);
     setInputValue(itemText);
@@ -64,12 +73,14 @@ const App = () => {
     setEditIndex(index);
   };
 
+  // Remove item
   const removeHandler = (index) => {
     const newGroceryList = groceryList.filter((item, i) => i !== index);
     setGroceryList(newGroceryList);
     showAlert("error", "Item removed");
   };
 
+  // Clear list
   const clearList = () => {
     setGroceryList([]);
     showAlert("error", "Empty List");
